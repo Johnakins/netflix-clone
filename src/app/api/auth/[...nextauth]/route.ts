@@ -3,7 +3,8 @@ import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
 import { compare } from 'bcrypt';
-import prismadb from "../../../../../libs/prismadb"
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import prismadb from "../../../../../libs/prismadb";
 
 export const authOptions: AuthOptions = {
     providers: [
@@ -57,6 +58,7 @@ export const authOptions: AuthOptions = {
         signIn: '/auth'
     },
     debug: process.env.NODE_ENV !== 'production',
+    adapter: PrismaAdapter(prismadb),
     session: { strategy: 'jwt' },
     jwt: {
         secret: process.env.NEXTAUTH_JWT_SECRET,
